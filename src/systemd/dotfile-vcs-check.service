@@ -1,0 +1,8 @@
+[Unit]
+Descritpion=Check for changes in dotfiles
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+SuccessExitStatus=1
+ExecStart=dotfile-vcs-check

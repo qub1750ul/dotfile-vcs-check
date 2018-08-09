@@ -1,0 +1,16 @@
+#!/bin/sh
+
+pkgdir="$1"
+
+if [ -z "$pkgdir" ] ; then
+	echo "ERROR: Please specify a root directory"
+	exit 1
+fi
+
+cd src
+argbash --strip user-content -o optionParsing.sh dotfile-vcs-check.argbash
+
+install -D -m 755 dotfile-vcs-check.argbash "${pkgdir}/usr/bin/dotfile-vcs-check"
+install -D -m 644 optionParsing.sh "${pkgdir}/usr/lib/dotfile-vcs-check/optionParsing.sh"
+install -d -m 755 "${pkgdir}/usr/lib/systemd/user/"
+install -m 644 systemd/* "${pkgdir}/usr/lib/systemd/user"

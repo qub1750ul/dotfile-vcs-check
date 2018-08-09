@@ -1,0 +1,10 @@
+[Unit]
+Description=Check for changes in dotfiles
+
+[Timer]
+OnBootSec=10s
+OnUnitActiveSec=30min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

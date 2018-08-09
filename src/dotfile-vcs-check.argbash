@@ -1,0 +1,96 @@
+#!/bin/bash
+
+# Dotfile VCS Check
+# A script that notifies the user if dotfile repository has uncommited changes
+
+# ARG_OPTIONAL_BOOLEAN( [stdout], [o], [redirect messages to standard output] )
+# ARG_OPTIONAL_SINGLE( [config], [f], [specifies a file containing a list of repositories to check] )
+# ARG_POSITIONAL_INF( [repo], [path of a repository to check] )
+# ARG_HELP( [A script that notifies the user if dotfile repository has uncommited changes] )
+# ARGBASH_GO
+
+# [ <-- needed because of Argbash
+
+# Source external modules
+
+. /usr/lib/dotfile-vcs-check/optionParsing.sh
+
+# Helper functions
+
+output()
+	{
+		if [ "$_arg_stdout" = "off" ] ; then
+			notify-send -u critical "DOTFILE VCS CHECK" "$1"
+		else
+			echo -e "$1"
+		fi
+	}
+
+seterr()
+	{
+		if [ "$errorCode" -lt "$1" ] ; then
+			errorCode=$1
+		fi
+	}
+
+# Internal variables
+
+errorCode=0
+cleanWorkdirMsg="nothing to commit, working tree clean"
+
+## Select the configFile
+
+if [ -n "$_arg_config" ] ; then
+	configFile="$_arg_config"
+
+elif [ -n "${XDG_CONFIG_HOME}" ] ; then
+	configFile="${XDG_CONFIG_HOME}/dotfile-vcs-check/repolist"
+else
+	configFile="${HOME}/.config/dotfile-vcs-check/repolist"
+fi
+
+## Load the repository list
+
+if [ $_positionals_count -gt 0 ] ; then
+	repolist="${_positionals[*]}"
+else
+	repolist="$(cat "$configFile")"
+fi
+
+# Main code
+
+if [ -z "$repolist" ]; then
+	output "ERROR: Repository path not specified"
+	exit 2
+fi
+
+for repo in $repolist ; do
+
+	if ! cd "$repo" ; then
+
+		output "ERROR: Unable to access the repository $repo" ;
+		seterr 2
+		continue
+
+	fi
+
+	if ! ls .git > /dev/null ; then
+
+		output "ERROR: Not a git repository"
+		seterr 2
+		continue
+
+	fi
+
+	if ! git status | grep -i "$cleanWorkdirMsg" ; then
+
+		output "${repo}\\nUncommitted changes detected"
+		seterr 1
+
+	fi
+
+done
+
+exit $errorCode
+
+# ] <-- needed because of Argbash
