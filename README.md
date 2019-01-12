@@ -1,11 +1,10 @@
 # dotfile-vcs-check #
 
-![Project status badge](https://img.shields.io/badge/Project%20status-ACTIVE-brightgreen.svg)
-![License badge](https://img.shields.io/badge/license-CC%20BY--SA%204.0-brightgreen.svg)  
-[![Keep a Changelog specification badge](https://img.shields.io/badge/Keep%20a%20Changelog%20Specification-1.0.0-orange.svg)](http://keepachangelog.com)
-[![Semantic Versioning specification badge](https://img.shields.io/badge/Semantic%20Versioning%20Specification-2.0.0-orange.svg)](http://semver.org)
-
 A script that checks for changes in a dotfile git repository and notifies the user if there are any
+
+[![License badge](https://img.shields.io/badge/license-CC%20BY--SA%204.0-brightgreen.svg?style=for-the-badge)](license.md)
+[![Keep a Changelog badge](https://img.shields.io/badge/Keep%20a%20Changelog-1.0.0-orange.svg?style=for-the-badge)](http://keepachangelog.com)
+[![Semantic Versioning badge](https://img.shields.io/badge/Semantic%20Versioning-2.0.0-orange.svg?style=for-the-badge)](http://semver.org)
 
 ## Table of contents ##
 
@@ -66,7 +65,7 @@ The script tries to load it from several locations, in order of precedence:
 
 ## Build & install instructions ##
 
-Just ```cd``` to the repository root directory and run ```sudo ./install.sh /```
+Just ```cd``` to the repository root directory and run ```sudo ./install /```
 
 ## Screenshots ##
 
